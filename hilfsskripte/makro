@@ -1,0 +1,40 @@
+REM ***** BASIC *****
+
+Function ConvertWordToPDF(cFile)
+        cURL = ConvertToURL(cFile)
+        oDoc = StarDesktop.loadComponentFromURL(cURL, "_blank", 0, Array(MakePropertyValue("Hidden", True), ))
+        cFile = Left(cFile, Len(cFile) - 4) + ".pdf"
+        cURL = ConvertToURL(cFile)
+        oDoc.storeToURL(cURL, Array(MakePropertyValue("FilterName", "writer_pdf_Export"), MakePropertyValue("FilterData", Array(MakePropertyValue("EmbedStandardFonts", 0), MakePropertyValue("UseLosslessCompression", 0), MakePropertyValue("Quality", 48), MakePropertyValue("ReduceImageResolution", 1), MakePropertyValue("MaxImageResolution", 150), MakePropertyValue("SelectPdfVersion", 0), MakePropertyValue("Printing", 2),  MakePropertyValue("Changes", 0), MakePropertyValue("EnableCopyingOfContent", 0), MakePropertyValue("CenterWindow", 1),  MakePropertyValue("ResizeWindowToInitialPage", 1), MakePropertyValue("UseTaggedPDF", 1)))
+        oDoc.close(True)
+End Function
+
+Function MakePropertyValue(Optional cName As String, Optional uValue) As com.sun.star.beans.PropertyValue
+
+        Dim oPropertyValue As New com.sun.star.beans.PropertyValue
+        
+        If Not IsMissing( cName ) Then
+                oPropertyValue.Name = cName
+        EndIf
+        
+        If Not IsMissing( uValue ) Then
+                oPropertyValue.Value = uValue
+        EndIf
+        MakePropertyValue() = oPropertyValue
+        
+End Function
+
+Function DBMerge()
+   OutputUrl="file:///home/muster/job-bot/outdir"
+   oMailMerge = CreateUnoService("com.sun.star.text.MailMerge")
+   oMailMerge.DocumentURL = "file:///home/muster/job-bot/bewerbung/bewerbung.odt"
+   oMailMerge.DataSourceName =  "bewerbungen_db"
+   oMailMerge.CommandType = 1
+   oMailMerge.Command = "Abfrage_bewerbungen_temp"
+   oMailMerge.OutputType = com.sun.star.text.MailMergeType.FILE
+   oMailMerge.OutputUrl = OutputUrl
+   oMailMerge.SaveAsSingleFile=True
+   oMailMerge.execute(Array())
+   oMailMerge.dispose()   
+End Function
+
