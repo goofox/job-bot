@@ -283,8 +283,8 @@ ENDE
 $msgtext = encode_utf8($msgtext);
 	my $msg = MIME::Lite->new(
 	From =>'mustername@muster.net',
-#	To => $mail_recipient,
-	To => 'mustername@muster.net',
+	To => $mail_recipient,
+#	To => 'mustername@muster.net',
 	Bcc =>'bewerbungen_sent@tuxwave.net',
 	Subject => encode('MIME-B', "Bewerbung als $job_workname - $mail_reference"),
 	Type =>'multipart/mixed'
