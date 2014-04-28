@@ -106,7 +106,7 @@ sub jobgrabber
 						print JOBFILE $job_page_content;
 						close(JOBFILE);
 					}
-					#Remove if ready
+					#Comment out next line if ready
 					exit;
 					sleep($delay);
 				}
